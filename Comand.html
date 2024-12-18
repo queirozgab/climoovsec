@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Comandos CLI Moovsec</title>
+  <link rel="icon" href="./assets/img/icons/icon-48x48.png" type="image/x-icon">
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f4f4f9;
+      color: #045C2F;
+    }
+  
+    header {
+      background-color: #002630;
+      color: #fff;
+      padding: 1rem;
+      text-align: center;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Adiciona sombreamento */
+      transition: box-shadow 0.3s ease; /* Transição suave para foco */
+    }
+  
+    header h1 {
+      margin: 0;
+      font-size: 2rem;
+    }
+  
+    #filter-container, #search-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 1.5rem auto;
+      text-align: center;
+      width: 90%;
+      max-width: 800px;
+    }
+  
+    #search-box {
+      width: 100%;
+      max-width: 500px;
+      padding: 10px;
+      font-size: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Adiciona sombreamento */
+      transition: box-shadow 0.3s ease; /* Transição suave para foco */
+    }
+  
+    #search-box:focus {
+      border-color: #00863F;
+      outline: none;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); /* Efeito de foco */
+    }
+  
+    #filter-menu {
+      margin-left: 10px;
+      padding: 10px;
+      font-size: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      background-color: #fff;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Adiciona sombreamento */
+      transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+  
+    #filter-menu:focus {
+      border-color: #00863F;
+      outline: none;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); /* Efeito de foco */
+    }
+  
+    #command-list {
+      margin: 1.5rem auto;
+      width: 90%;
+      max-width: 800px;
+      list-style-type: none;
+      padding: 0;
+    }
+  
+    .command-item {
+      background: #fff;
+      margin: 0.5rem 0;
+      padding: 1rem;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+  
+    .command-item:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Efeito de hover */
+    }
+  
+    .command-item h2 {
+      font-size: 1.2rem;
+      margin: 0;
+      color: #00863F;
+    }
+  
+    .command-item p {
+      margin: 0.5rem 0 0;
+      font-size: 0.9rem;
+      color: #002630;
+    }
+  
+    footer {
+      text-align: center;
+      margin: 2rem 0;
+      font-size: 0.8rem;
+      color: #888;
+    }
+  
+    /* Ajuste para dispositivos menores */
+    @media (max-width: 768px) {
+      #filter-container, #search-container {
+        flex-direction: column;
+        align-items: stretch;
+      }
+  
+      #filter-menu {
+        margin-left: 0;
+        margin-top: 10px;
+      }
+    }
+  </style>
+  
+</head>
+<body>
+  <header>
+    <img src="./assets/img/png/intelbras_marca.svg" alt="Logo Moovsec" style="height: 30px; vertical-align: middle; margin-right: 10px;">
+    <h1>Comandos CLI Moovsec</h1>
+  </header>
+  
+
+  <div id="filter-container">
+    <select id="filter-menu">
+      <option value="all">All</option>
+      <option value="moovsec">Moovsec</option>
+      <option value="linux">Linux</option>
+    </select>
+  </div>
+  
+  <div id="search-container">
+    <input type="text" id="search-box" placeholder="Search for commands...">
+  </div>
+
+  <ul id="command-list">
+    <li class="command-item" data-category="linux">
+      <h2>ls</h2>
+      <p>List directory contents.</p>
+      <p>Listar o conteúdo do diretório.</p>
+    </li>
+
+    <li class="command-item" data-category="linux">
+      <h2>cd</h2>
+      <p>Change the current directory.</p>
+      <p>Altere o diretório atual.</p>
+    </li>
+
+    <li class="command-item" data-category="linux">
+      <h2>mkdir</h2>
+      <p>Create a new directory.</p>
+      <p>Crie um novo diretório.</p>
+    </li>
+
+    <li class="command-item" data-category="linux">
+      <h2>rm</h2>
+      <p>Remove files or directories.</p>
+      <p>Remova arquivos ou diretórios.</p>
+    </li>
+
+    <li class="command-item" data-category="linux">
+      <h2>top</h2>
+      <p>Show real-time system processes.</p>
+      <p>Mostre processos do sistema em tempo real.</p>
+    </li>
+
+    <li class="command-item" data-category="linux">
+      <h2>grep</h2>
+      <p>Search for patterns in files.</p>
+      <p>Procure padrões em arquivos.</p>
+    </li>
+
+    <li class="command-item" data-category="moovsec">
+      <h2>moovsec help [comand]</h2>
+      <p>View on-screen help for the command.</p>
+      <p>Vizualiza a ajuda do comando na tela.</p>
+    </li>
+
+    <li class="command-item" data-category="moovsec">
+      <h2>moovsec auth reset moovsec</h2>
+      <p>Recovers Moovsec administrator password.</p>
+      <p>Recupera a senha de administrador do Moovsec.</p>
+    </li>
+
+    <li class="command-item" data-category="moovsec">
+      <h2>moovsec auth reset server-manager admin</h2>
+      <p>Recovers Server Manager administrator password.</p>
+      <p>Recupera a senha de administrador do Server Manager.</p>
+    </li>
+
+    <li class="command-item" data-category="moovsec">
+      <h2>moovsec config list [nome]</h2>
+      <p>List name configuration [name].</p>
+      <p>Lista a configuração de nome [nome].</p>
+    </li>
+
+    <li class="command-item" data-category="moovsec">
+      <h2>moovsec config update [nome] [valor]</h2>
+      <p>Updates a configuration named [name] to have the value [value].</p>
+      <p>Atualiza uma configuração de nome [nome] para possuir o valor [valor].</p>
+    </li>
+
+    <li class="command-item" data-category="moovsec">
+      <h2>moovsec status</h2>
+      <p>Lists server and Moovsec status and monitoring data.</p>
+      <p>Lista dados de status e monitoramento do servidor e do Moovsec	.</p>
+    </li>
+
+    <li class="command-item" data-category="moovsec">
+      <h2>moovsec status moovsec</h2>
+      <p>Lists Moovsec status and monitoring data.</p>
+      <p>Lista dados de status e monitoramento do Moovsec.</p>
+    </li>
+
+    <li class="command-item" data-category="moovsec">
+      <h2>moovsec status system</h2>
+      <p>Lists system status and monitoring data.</p>
+      <p>Lista dados de status e monitoramento do sistema.</p>
+    </li>
+
+    <li class="command-item" data-category="moovsec">
+      <h2>moovsec version</h2>
+      <p>Allows you to view the CLI version.</p>
+      <p>Permite visualizar a versão da CLI.</p>
+    </li>
+
+    <li class="command-item" data-category="linux">
+      <h2>wget [URL] (pode ser necessário ter que configurar o DNS da máquina antes)</h2>
+      <p>.</p>
+      <p>Download do arquivo do Cronos direto no servidor.</p>
+    </li>
+
+    <li class="command-item" data-category="linux">
+      <h2>gzip -d -c [nome do arquivo] | tar -xv ou tar -xf [nome do arquivo] ou tar -xzvf [nome do arquivo]</h2>
+      <p>.</p>
+      <p>Extração dos arquivos de instalação/atualização (1.4.1 ou superior).</p>
+    </li>
+
+    <li class="command-item" data-category="linux">
+      <h2>find / -name listCurrentConfigs.sh</h2>
+      <p>.</p>
+      <p>Verificar diretório de instalação do MoovSec.</p>
+    </li>
+
+    <li class="command-item" data-category="linux">
+      <h2>ufw status (página com mais comandos do UFW)</h2>
+      <p>.</p>
+      <p>Verificar status do firewall UFW do Linux.</p>
+    </li>
+
+    <li class="command-item" data-category="linux">
+      <h2>Verificar status do firewall Firewalld do Linux</h2>
+      <p>.</p>
+      <p>systemctl status firewalld.service (página com mais comandos do Firewalld).</p>
+    </li>
+
+    <li class="command-item">
+      <h2>grep avx /proc/cpuinfo ou lscpu | grep avx data-category="linux"</h2>
+      <p>.</p>
+      <p>Verificar se há suporte AVX na CPU.</p>
+    </li>
+
+    <li class="command-item" data-category="linux">
+      <h2>htop</h2>
+      <p>.</p>
+      <p>Verificar consumo dos processos em tempo real.</p>
+    </li>
+
+    <li class="command-item" data-category="linux">
+      <h2>cat /etc/os-release</h2>
+      <p>.</p>
+      <p>Verificar SO.</p>
+    </li>
+
+    <li class="command-item" data-category="linux">
+      <h2>lscpu</h2>
+      <p>.</p>
+      <p>Verificar CPU.</p>
+    </li>
+
+    <li class="command-item" data-category="linux">
+      <h2>cat /proc/meminfo</h2>
+      <p>.</p>
+      <p>Verificar RAM.</p>
+    </li>
+
+    <li class="command-item" data-category="linux">
+      <h2>df -h .</h2>
+      <p>.</p>
+      <p>Verificar infos do disco da pasta atual.</p>
+    </li>
+
+    <li class="command-item" data-category="moovsec">
+      <h2>docker logs [nome do serviço]</h2>
+      <p>.</p>
+      <p>Verificar logs de algum serviço do MoovSec.</p>
+    </li>
+
+    <li class="command-item" data-category="moovsec">
+      <h2>docker logs moovsec_iot_handler -f -n 300 | grep [ID do dispositivo]</h2>
+      <p>.</p>
+      <p>Verificar logs do iot_handler para verificar comunicação com o ID do MDVR.</p>
+    </li>
+
+    <li class="command-item" data-category="linux">
+      <h2>docker ps -a</h2>
+      <p>.</p>
+      <p>Listar os containers.</p>
+    </li>
+
+    <li class="command-item" data-category="linux">
+      <h2>docker remove [ID do serviço]</h2>
+      <p>.</p>
+      <p>Apagar o container.</p>
+    </li>
+
+    <li class="command-item" data-category="linux">
+      <h2>docker restart [nome do serviço]</h2>
+      <p>.</p>
+      <p>Reiniciar apenas um serviço específico.</p>
+    </li>
+
+    <li class="command-item" data-category="linux">
+      <h2>netstat -tuln | grep : [porta]</h2>
+      <p>.</p>
+      <p>Verificar se certa porta está em uso na rede.</p>
+    </li>
+
+    <li class="command-item" data-category="linux">
+      <h2>docker compose --env-file .env -f ./moovsec-docker-compose.yml down</h2>
+
+      <h2>docker compose --env-file .env -f ./moovsec-docker-compose.yml up -d</h2>
+      <p>.</p>
+      <p>Recriar todos os containers do MoovSec (dentro do diretório de instalação).</p>
+    </li>
+
+    <li class="command-item" data-category="linux">
+      <h2>docker exec -it moovsec_mongodb mongosh moovsec</h2>
+      <p>.</p>
+      <p>Acessar o banco de dados.</p>
+    </li>
+
+    <!-- <li class="command-item">
+      <h2></h2>
+      <p>.</p>
+      <p>.</p>
+    </li>
+
+    <li class="command-item">
+      <h2></h2>
+      <p>.</p>
+      <p>.</p>
+    </li>
+
+    <li class="command-item">
+      <h2></h2>
+      <p>.</p>
+      <p>.</p>
+    </li>
+
+    <li class="command-item">
+      <h2></h2>
+      <p>.</p>
+      <p>.</p>
+    </li>
+
+    <li class="command-item">
+      <h2></h2>
+      <p>.</p>
+      <p>.</p>
+    </li>
+
+    <li class="command-item">
+      <h2></h2>
+      <p>.</p>
+      <p>.</p>
+    </li>
+
+    <li class="command-item">
+      <h2></h2>
+      <p>.</p>
+      <p>.</p>
+    </li>
+
+    <li class="command-item">
+      <h2></h2>
+      <p>.</p>
+      <p>.</p>
+    </li>
+
+    <li class="command-item">
+      <h2></h2>
+      <p>.</p>
+      <p>.</p>
+    </li>
+
+    <li class="command-item">
+      <h2></h2>
+      <p>.</p>
+      <p>.</p>
+    </li>
+
+    <li class="command-item">
+      <h2></h2>
+      <p>.</p>
+      <p>.</p>
+    </li>
+
+    <li class="command-item">
+      <h2></h2>
+      <p>.</p>
+      <p>.</p>
+    </li>
+ -->
+  </ul>
+
+
+
+
+  <!-- <footer>
+    <p>Comandos CLI Moovsec &copy; 2024</p>
+  </footer> -->
+
+  <script>
+    const searchBox = document.getElementById('search-box');
+    const filterMenu = document.getElementById('filter-menu');
+    const commandItems = document.querySelectorAll('.command-item');
+  
+    function filterCommands() {
+      const query = searchBox.value.toLowerCase();
+      const selectedCategory = filterMenu.value;
+  
+      commandItems.forEach(item => {
+        const commandName = item.querySelector('h2').textContent.toLowerCase();
+        const descriptions = item.querySelectorAll('p');
+        const category = item.getAttribute('data-category');
+        let matchFound = false;
+  
+        descriptions.forEach(p => {
+          if (p.textContent.toLowerCase().includes(query)) {
+            matchFound = true;
+          }
+        });
+  
+        const matchesQuery = commandName.includes(query) || matchFound;
+        const matchesCategory = selectedCategory === 'all' || category === selectedCategory;
+  
+        if (matchesQuery && matchesCategory) {
+          item.style.display = 'block';
+        } else {
+          item.style.display = 'none';
+        }
+      });
+    }
+  
+    searchBox.addEventListener('input', filterCommands);
+    filterMenu.addEventListener('change', filterCommands);
+  </script>
+</body>
+</html>

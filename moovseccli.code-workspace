@@ -1,0 +1,13 @@
+{
+	"folders": [
+		{
+			"path": "../queirozgab.github.io-main"
+		},
+		{
+			"path": "."
+		}
+	],
+	"settings": {
+		"liveServer.settings.multiRootWorkspaceName": "moovseccli"
+	}
+}
